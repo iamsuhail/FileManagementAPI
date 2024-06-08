@@ -1,0 +1,29 @@
+# .NET
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Logs
+*.log
+
+# Application Insights
+ApplicationInsights.config
+
+# Local History for JetBrains
+.localhistory
+
+# User-specific files
+*.rsuser
+*.sln.ide
