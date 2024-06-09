@@ -7,6 +7,8 @@
         public string Path { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public ICollection<FileMetadata> Files { get; set; }
+        // public ICollection<FileMetadata> Files { get; set; }
+        public int ParentFolderId { get; set; }
+
     }
 }

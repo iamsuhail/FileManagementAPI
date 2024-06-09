@@ -25,7 +25,28 @@ namespace FileManagementAPI.Controllers
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
-                return Ok($"Folder '{folderName}' created successfully.");
+                var completePath = Path.Combine(folderPath, folderName);
+                try
+                {
+
+                    var fileMetadata = new Folder
+                    {
+                        Name = folderName,
+                        Path = completePath,
+                        CreatedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow,
+                        ParentFolderId = 0
+                    };
+
+                    _context.FolderData.Add(fileMetadata);
+                    await _context.SaveChangesAsync();
+
+                    return Ok($"Folder '{folderName}' created successfully.");
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"Internal server error: {ex.Message}");
+                }
             }
             else
             {

@@ -52,8 +52,6 @@ namespace FileManagementAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FolderId");
-
                     b.ToTable("FileMetadatas");
                 });
 
@@ -72,6 +70,9 @@ namespace FileManagementAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ParentFolderId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Path")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -81,23 +82,7 @@ namespace FileManagementAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Folders");
-                });
-
-            modelBuilder.Entity("FileManagementAPI.Models.FileMetadata", b =>
-                {
-                    b.HasOne("FileManagementAPI.Models.Folder", "Folder")
-                        .WithMany("Files")
-                        .HasForeignKey("FolderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Folder");
-                });
-
-            modelBuilder.Entity("FileManagementAPI.Models.Folder", b =>
-                {
-                    b.Navigation("Files");
+                    b.ToTable("FolderData");
                 });
 #pragma warning restore 612, 618
         }
