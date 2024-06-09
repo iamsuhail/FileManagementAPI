@@ -11,5 +11,6 @@ namespace FileManagementAPI.Database
         }
 
         public DbSet<FileMetadata> FileMetadatas { get; set; }
+        public DbSet<Folder> FolderData { get; set; }
     }
 }

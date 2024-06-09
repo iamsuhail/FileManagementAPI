@@ -21,21 +21,35 @@ namespace FileManagementAPI.Controllers
         [Route("UploadFile")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFile(IFormFile file, int folderId)
         {
             if (file == null || file.Length == 0)
             {
                 return BadRequest("Invalid file.");
             }
 
+            var folder = await _context.FolderData.FindAsync(folderId);
+            if (folderId != 0 && folder == null)
+            {
+                return NotFound("Folder not found.");
+            }
+
             var filename = file.FileName;
-            var extension = Path.GetExtension(filename);
-            var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "Documents");
+            var baseDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "Documents");
+            var filepath = baseDirectory;
+
+            if (folderId != 0 && folder != null)
+            {
+
+                filepath = Path.Combine(baseDirectory, folder.Name);
+            }
 
             if (!Directory.Exists(filepath))
             {
                 Directory.CreateDirectory(filepath);
             }
+
+            //var extension = Path.GetExtension(filename);
 
             var completePath = Path.Combine(filepath, filename);
             try
@@ -51,7 +65,8 @@ namespace FileManagementAPI.Controllers
                     FilePath = completePath,
                     FileSize = file.Length,
                     CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    UpdatedAt = DateTime.UtcNow,
+                    FolderId = folderId
                 };
 
                 _context.FileMetadatas.Add(fileMetadata);

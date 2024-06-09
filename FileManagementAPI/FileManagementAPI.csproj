@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="Uploads\Documents\" />
-    <Folder Include="Uploads\suhail\" />
   </ItemGroup>
 
 </Project>
