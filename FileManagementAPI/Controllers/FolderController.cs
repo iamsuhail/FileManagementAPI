@@ -89,13 +89,23 @@ public async Task<IActionResult> CreateFolder(string folderName, string parentfo
 }
 
 
-        /*[HttpGet]
+        [HttpGet]
         [Route("GetAll")]
         public async Task<IActionResult> GetAllFolders()
         {
-            var folders = await _context.Folders.Include(f => f.Files).ToListAsync();
+            var folders = await _context.FolderData.ToListAsync();
             return Ok(folders);
-        }*/
+        }
+
+        [HttpGet]
+        [Route("GetAllChildFolders")]
+        public async Task<IActionResult> GetAllChildFolders(int parentFolderId)
+        {
+            var childFolders = await _context.FolderData
+                                         .Where(f => f.ParentFolderId == parentFolderId)
+                                         .ToListAsync();
+            return Ok(childFolders);
+        }
 
         /*[HttpPut]
         [Route("Update")]
